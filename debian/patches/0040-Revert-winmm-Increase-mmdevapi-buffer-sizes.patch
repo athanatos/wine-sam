@@ -1,0 +1,37 @@
+From 6959f67d62ee8c882709c7d7d0e13bf7136e9314 Mon Sep 17 00:00:00 2001
+From: Maarten Lankhorst <wine@mblankhorst.nl>
+Date: Mon, 14 Jul 2014 09:50:06 +0200
+Subject: [PATCH 40/42] Revert "winmm: Increase mmdevapi buffer sizes."
+
+This reverts commit fdfff7cf6013a030f2b240b13b02831e502d49e7.
+
+You've got to be kidding me, 1 second latency in winmm because
+of a driver not used on linux? If the 'upstream' audio devs
+spent less time on workarounds and more on fixing drivers,
+this kind of crap wouldn't be needed.
+
+I cannot believe that winecoreaudio requires .5 second latency,
+their api allows for very low latency, so it's probably
+winecoreaudio screwing things up instead.
+---
+ dlls/winmm/waveform.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/dlls/winmm/waveform.c b/dlls/winmm/waveform.c
+index 6b259ff..541dc62 100644
+--- a/dlls/winmm/waveform.c
++++ b/dlls/winmm/waveform.c
+@@ -68,8 +68,8 @@ static const WCHAR muteW[] = {'M','u','t','e',0};
+  *   - We must be able to identify bad devices without crashing.
+  */
+ 
+-/* buffer size = 100 * 100000 (100 ns) = 1 second */
+-#define AC_BUFLEN (100 * 100000)
++/* buffer size = 10 * 100000 (100 ns) = 0.1 seconds */
++#define AC_BUFLEN (10 * 100000)
+ #define MAX_DEVICES 256
+ #define MAPPER_INDEX 0x3F
+ 
+-- 
+2.0.0
+

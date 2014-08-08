@@ -1,0 +1,24 @@
+From 9d799671ea3a17506a54c45142f5802c338737dd Mon Sep 17 00:00:00 2001
+From: Maarten Lankhorst <maarten.lankhorst@canonical.com>
+Date: Mon, 14 Jul 2014 09:50:02 +0200
+Subject: [PATCH 04/42] avrt: Add realtime to stub
+
+---
+ dlls/avrt/main.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/dlls/avrt/main.c b/dlls/avrt/main.c
+index 8a11025..aa6b95d 100644
+--- a/dlls/avrt/main.c
++++ b/dlls/avrt/main.c
+@@ -80,6 +80,7 @@ HANDLE WINAPI AvSetMmThreadCharacteristicsW(LPCWSTR TaskName, LPDWORD TaskIndex)
+         SetLastError(ERROR_INVALID_HANDLE);
+         return NULL;
+     }
++    SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
+     return (HANDLE)0x12345678;
+ }
+ 
+-- 
+2.0.0
+
